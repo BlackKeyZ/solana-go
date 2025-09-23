@@ -214,6 +214,8 @@ type TransactionMeta struct {
 	Rewards []BlockReward `json:"rewards"`
 
 	LoadedAddresses LoadedAddresses `json:"loadedAddresses"`
+
+	ComputeUnitsConsumed *uint64 `json:"computeUnitsConsumed,omitempty"`
 }
 
 type InnerInstruction struct {
