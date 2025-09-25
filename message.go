@@ -845,3 +845,16 @@ type MessageHeader struct {
 	// The last `numReadonlyUnsignedAccounts` of the unsigned keys are read-only accounts.
 	NumReadonlyUnsignedAccounts uint8 `json:"numReadonlyUnsignedAccounts"`
 }
+
+var ErrAlreadyResolved = fmt.Errorf("lookups already resolved")
+
+// ResolveLookupsWith resolves the address table lookups with the provided writable and readonly accounts,
+// assuming that the order of the accounts is correct.
+func (mx *Message) ResolveLookupsWith(writable, readonly PublicKeySlice) (err error) {
+	if mx.resolved {
+		return ErrAlreadyResolved
+	}
+	mx.AccountKeys = append(mx.AccountKeys, append(writable, readonly...)...)
+	mx.resolved = true
+	return nil
+}
